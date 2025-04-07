@@ -13,7 +13,7 @@ public class User : BaseEntity
     public string? Password { get; set; }
     public string? Email { get; set; }
     public string? Phone { get; set; }
-    
+
     [ForeignKey(nameof(Entity.Role))]
     public int? RoleId { get; set; }
     

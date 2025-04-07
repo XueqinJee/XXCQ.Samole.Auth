@@ -35,6 +35,7 @@ builder.Services.AddOptions<JwtConfigOption>()
 
 builder.Services.AddScoped<IMenuService, MenuService>();
 builder.Services.AddScoped<IRoleService, RoleService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
 

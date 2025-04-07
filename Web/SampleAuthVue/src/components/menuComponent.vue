@@ -2,7 +2,6 @@
     <el-row class="tac">
         <el-menu default-active="2" :collapse-transition="false" :hide-timeout="0" :collapse="props.isCollapse"
             style="width: 200px;" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
-
             <sub-menu :menu-data="menuRefs.data.value"></sub-menu>
         </el-menu>
     </el-row>

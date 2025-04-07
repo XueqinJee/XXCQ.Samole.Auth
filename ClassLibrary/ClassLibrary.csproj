@@ -15,4 +15,8 @@
       <ProjectReference Include="..\Packages\Packages.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Dto\QueryDto\" />
+    </ItemGroup>
+
 </Project>

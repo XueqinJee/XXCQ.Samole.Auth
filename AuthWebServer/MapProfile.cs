@@ -21,6 +21,10 @@ namespace AuthWebServer
             CreateMap<RoleDto, RoleViewModel>();
             CreateMap<Role, RoleDto>();
             CreateMap<RoleDto, Role>();
+
+            CreateMap<UserViewModel, User>();
+            CreateMap<User, UserViewModel>();
+            CreateMap<User, UserDto>();
         }
     }
 }

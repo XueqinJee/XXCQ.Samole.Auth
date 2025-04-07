@@ -2,6 +2,7 @@
 using AuthWebServer.ViewModel;
 using AutoMapper;
 using ClassLibrary.Dto;
+using ClassLibrary.Dto.Page;
 using ClassLibrary.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,6 +18,14 @@ namespace AuthWebServer.Controllers {
         public async Task<Result> GetAll() {
             var result = await _roleService.GetAllAsync();
             return Result.Success(result);
+        }
+
+
+        [HttpGet("page")]
+        public async Task<Result> GetPage([FromQuery]BaseQueryPage page) {
+            var query = await _roleService.GetPaginatedAsync(page, options => options.RoleName.Contains(page.q));
+
+            return Result.Success(query);
         }
 
         [HttpGet("get/{id}")]

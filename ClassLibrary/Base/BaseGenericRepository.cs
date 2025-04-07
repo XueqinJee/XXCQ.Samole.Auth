@@ -1,11 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ClassLibrary.Dto.Page;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using Model;
 using Model.Entity;
 using System.Linq.Expressions;
 
 namespace ClassLibrary.Base
 {
-    public class BaseGenericRepository<T> where T : BaseEntity
+    public class BaseGenericRepository<T> : IBaseGenericRepository<T> where T : BaseEntity
     {
         protected readonly MyDbContext _myDbContext;
         public readonly DbSet<T> _dbSet;
@@ -21,7 +23,7 @@ namespace ClassLibrary.Base
         /// <param name="pageSize">每页大小</param>
         /// <param name="predicate">查询参数</param>
         /// <returns></returns>
-        public async Task<(IEnumerable<T> items, int totalCount, int totalPage, int currentPage, int pageSize)> GetPaginatedAsync(int pageNumber, int pageSize, Expression<Func<T, bool>> predicate = null) {
+        public async Task<PageData<T>> GetPaginatedAsync(BaseQueryPage page, Expression<Func<T, bool>> predicate = null) {
             var query = _dbSet.AsQueryable();
 
             if (predicate != null) {
@@ -29,12 +31,41 @@ namespace ClassLibrary.Base
             }
             var totalCount = await query.CountAsync();
             var items = await query
-                .Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize)
+                .Skip((page.PageNumber - 1) * page.PageSize)
+                .Take(page.PageSize)
                 .ToListAsync();
 
-            int totalPage = (int)Math.Ceiling((double)totalCount / pageSize);
-            return (items, totalCount, totalPage, pageNumber, pageSize);
+            int totalPage = (int)Math.Ceiling((double)totalCount / page.PageSize);
+
+            var pageData = new PageData<T>();
+            pageData.CurrentPage = page.PageNumber;
+            pageData.PageSize = page.PageSize;
+            pageData.TotalPage = totalPage;
+            pageData.Total = totalCount;
+            pageData.Data = items;
+
+            return pageData;
+        }
+
+        public async Task<PageData<T>> GetPaginatedAsync(IQueryable<T> queryAble, BaseQueryPage page) {
+            var query = queryAble;
+
+            var totalCount = await query.CountAsync();
+            var items = await query
+            .Skip((page.PageNumber - 1) * page.PageSize)
+                .Take(page.PageSize)
+            .ToListAsync();
+
+            int totalPage = (int)Math.Ceiling((double)totalCount / page.PageSize);
+
+            var pageData = new PageData<T>();
+            pageData.CurrentPage = page.PageNumber;
+            pageData.PageSize = page.PageSize;
+            pageData.TotalPage = totalPage;
+            pageData.Total = totalCount;
+            pageData.Data = items;
+
+            return pageData;
         }
 
         /// <summary>
@@ -90,5 +121,7 @@ namespace ClassLibrary.Base
 
             return await _myDbContext.SaveChangesAsync() > 0;
         }
+
+        
     }
 }
