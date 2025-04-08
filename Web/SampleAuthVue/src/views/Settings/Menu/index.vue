@@ -1,5 +1,5 @@
 <template>
-    <div class="search">
+    <!-- <div class="search">
         <div class="item">
             <span>菜单名称</span>
             <el-input style="width: 200px" placeholder="请输入菜单名称！" />
@@ -9,7 +9,7 @@
             <el-input style="width: 200px" placeholder="菜单状态" />
         </div>
         <el-button class="item">搜索</el-button>
-    </div>
+    </div> -->
     <div class="tool">
         <el-button @click="onOpenDialogHandler('add')"><el-icon>
                 <DocumentAdd />

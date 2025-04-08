@@ -2,11 +2,9 @@ using AuthWebServer.Config;
 using AuthWebServer.Config.Extensions;
 using AuthWebServer.Config.Filter;
 using AuthWebServer.Config.Options;
-using ClassLibrary;
 using ClassLibrary.Services;
 using Microsoft.EntityFrameworkCore;
 using Model;
-using Newtonsoft.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 

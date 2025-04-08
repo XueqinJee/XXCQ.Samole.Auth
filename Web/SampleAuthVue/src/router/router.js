@@ -53,6 +53,12 @@ const dynamicRoutes = [
 router.beforeEach(async (to, from, next) => {
     const userStore = useUserStore()
     const menuStore = useMenuStore()
+
+    const isLogin = userStore.isLogin()
+    if (!isLogin && to.fullPath != '/login') {
+        return next('/login')
+    }
+
     // 判断是否有菜单
     if (menuStore.data.length == 0 || dynamicRoutes.length == 0) {
        let menus = await menuStore.getMenuList()
@@ -63,11 +69,6 @@ router.beforeEach(async (to, from, next) => {
        })
        // 如果更新了路由， 需要重定向一次
        return next(to.fullPath)
-    }
-
-    const isLogin = userStore.isLogin()
-    if (!isLogin && to.fullPath != '/login') {
-        return next('/login')
     }
     next()
 })

@@ -6,17 +6,20 @@
             </el-icon>
         </div>
         <div class="right-components">
-            {{ IconComputed }}
+           <el-button @click="userStore.logout(); router.push('/login')">登出</el-button>
         </div>
     </header>
 </template>
 
 <script setup>
-import {useMenuStore} from '@/store/menuStore'
+import {useMenuStore, useUserStore} from '@/store/store'
 import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
+import { useRouter } from 'vue-router';
 
+const router = useRouter()
 const menuStore = useMenuStore()
+const userStore = useUserStore()
 var menuRefs = storeToRefs(menuStore)
 
 const menuTaggleHandler = () => {
